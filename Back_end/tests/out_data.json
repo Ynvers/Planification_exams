@@ -1,0 +1,37 @@
+{
+    "planning": {
+      "Lundi": [
+        [
+          8,
+          "Math",
+          "A",
+          1,
+          "Sciences"
+        ],
+        [
+          8,
+          "Chimie",
+          "A",
+          1,
+          "Chimie"
+        ],
+        [
+          9,
+          "Physique",
+          "B",
+          1,
+          "Sciences"
+        ]
+      ],
+      "Mardi": [
+        [
+          8,
+          "Info",
+          "A",
+          2,
+          "Informatique"
+        ]
+      ]
+    },
+    "message": "Solution trouvée"
+  }

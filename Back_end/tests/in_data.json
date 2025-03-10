@@ -1,0 +1,49 @@
+{
+    "examens": {
+      "Math": {
+        "duree": 1,
+        "annee": 1,
+        "filiere": "Sciences",
+        "nb_etudiants": 30
+      },
+      "Physique": {
+        "duree": 2,
+        "annee": 1,
+        "filiere": "Sciences",
+        "nb_etudiants": 30
+      },
+      "Info": {
+        "duree": 2,
+        "annee": 2,
+        "filiere": "Informatique",
+        "nb_etudiants": 25
+      },
+      "Chimie": {
+        "duree": 1,
+        "annee": 1,
+        "filiere": "Chimie",
+        "nb_etudiants": 30
+      }
+    },
+    "salles": {
+      "A": {
+        "capacite": 60
+      },
+      "B": {
+        "capacite": 30
+      }
+    },
+    "disponibilites": {
+      "Lundi": {
+        "A": [[8, 12], [13, 18]],
+        "B": [[9, 11], [15, 17]]
+      },
+      "Mardi": {
+        "A": [[8, 13]],
+        "B": [[10, 14]]
+      }
+    },
+    "global_hours": [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+    "transition": 1
+  }
+  

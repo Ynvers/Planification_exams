@@ -14,9 +14,6 @@ def is_available(disponibilites, day, room, hour):
 
 def planifier_examens(examens, salles, disponibilites, global_hours, transition=1):
     model = cp_model.CpModel()
-
-    # Création des variables décisionnelles : 
-    # X[e, day, hour, room] = 1 si l'examen e est programmé le jour 'day' à l'heure 'hour' en salle 'room'
     X = {}
     for e in examens:
         for day in disponibilites:
@@ -43,7 +40,7 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
                     for e1 in examens:
                         for e2 in examens:
                             if e1 < e2:
-                                if (examens[e1]["duree"] != examens[e2]["duree"]) or (examens[e1]["annee"] != examens[e2]["annee"]):
+                                if (examens[e1].duree != examens[e2].duree) or (examens[e1].annee != examens[e2].annee):
                                     model.Add(X[e1, day, hour, room] + X[e2, day, hour, room] <= 1)
 
     # Contrainte 3 : Respect de la capacité des salles (en utilisant nb_etudiants)
@@ -52,8 +49,8 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
             for room in salles:
                 if is_available(disponibilites, day, room, hour):
                     model.Add(
-                        sum(X[e, day, hour, room] * examens[e]["nb_etudiants"] for e in examens)
-                        <= salles[room]["capacite"]
+                        sum(X[e, day, hour, room] * examens[e].nb_etudiants for e in examens)
+                        <= salles[room].capacite  # Utilisation de la notation par point
                     )
 
     # Contrainte 4 : Les examens de différentes années ne sont pas programmés simultanément,
@@ -62,7 +59,7 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
         for hour in global_hours:
             for e1 in examens:
                 for e2 in examens:
-                    if e1 < e2 and (examens[e1]["annee"] != examens[e2]["annee"]):
+                    if e1 < e2 and (examens[e1].annee != examens[e2].annee):
                         model.Add(
                             sum(X[e1, day, hour, room] for room in salles) +
                             sum(X[e2, day, hour, room] for room in salles)
@@ -72,10 +69,8 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
     # Contrainte 5 : La disponibilité des salles est respectée (déjà prise en compte lors de la création de X)
 
     # Contrainte 6 : Transition entre examens dans la même salle.
-    # Une fois qu'un examen démarre à 'hour' dans une salle, les créneaux suivants, correspondant à sa durée + transition,
-    # doivent être libres dans cette même salle.
     for e in examens:
-        duree = examens[e]["duree"]
+        duree = examens[e].duree
         for day in disponibilites:
             for hour in global_hours:
                 for room in salles:
@@ -88,7 +83,7 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
                                     <= 1
                                 )
 
-    # Objectif : Minimiser le dernier instant d'examen (pour réduire l'étalement total)
+    # Objectif : Minimiser le dernier instant d'examen
     dernier_instant = model.NewIntVar(0, max(global_hours), 'dernier_instant')
     for e in examens:
         for day in disponibilites:
@@ -109,12 +104,9 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
                 for hour in global_hours:
                     for room in salles:
                         if solver.Value(X[e, day, hour, room]) == 1:
-                            planning[day].append((hour, e, room, examens[e]["annee"], examens[e]["filiere"]))
+                            planning[day].append((hour, e, room, examens[e].annee, examens[e].filiere))
         for day in planning:
             planning[day].sort(key=lambda x: x[0])
         return planning
     else:
         return "Pas de solution trouvée"
-
-
-global_hours = list(range(8, 19))  # Plage horaire globale de 8h à 18h

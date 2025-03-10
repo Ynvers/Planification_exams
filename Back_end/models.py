@@ -22,3 +22,4 @@ class PlanningRequest(BaseModel):
 
 class PlanningResponse(BaseModel):
     planning: Dict[str, List[Tuple[int, str, str, int, str]]]
+    message: str = "Solution trouvée"
