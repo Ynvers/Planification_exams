@@ -43,6 +43,6 @@ Elle repose sur des **algorithmes d'optimisation** utilisant la **programmation 
 
 ### 1️⃣ **Cloner le projet**  
 ```bash
-git clone https://github.com/ton-user/planification-examens-web.git
-cd planification-examens-web
+https://github.com/Ynvers/Planification_exams.git
+cd Planification_exams
 ```
