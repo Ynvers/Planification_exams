@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-screen flex items-center justify-center relative p-[20px] bg-gray-200">
-        <div class="w-full h-full max-w-[550px] max-h-[calc(100%-100px)] bg-white rounded-[10px] p-[20px] md:px-[50px] flex items-center justify-center flex-col">
+        <div class="w-full h-auto max-w-[550px] max-h-[calc(100%-100px)] bg-white rounded-[10px] p-[20px] md:px-[50px] flex items-center justify-center flex-col">
             <h2 class="md:text-3xl text-2xl font-bold text-gray-800 text-center">
                 Bienvenue sur SmartExam
             </h2>
