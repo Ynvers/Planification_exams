@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'translate-x-0': isMenu, 'translate-x-[-100%]': !isMenu}" class="h-screen lg:translate-x-0 duration-300 lg:w-[25%] lg:relative fixed z-50 left-0 top-0 w-[70%] min-w-[25%] bg-gray-800 p-[20px]">
+    <div :class="{'translate-x-0': isMenu, 'translate-x-[-100%]': !isMenu}" class="h-screen lg:translate-x-0 duration-300 lg:w-[25%] lg:sticky bottom-0 fixed z-50 left-0 top-0 w-[70%] min-w-[25%] bg-gray-800 p-[20px]">
         <div class="flex items-center justify-start w-full relative my-[20px] px-[20px] text-2xl font-bold text-white">
             <svg class="mr-[5px] text-[#34D399]" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 20 20"><!-- Icon from All by undefined - undefined --><path fill="currentColor" d="M3.33 8L10 12l10-6l-10-6L0 6h10v2zM0 8v8l2-2.22V9.2zm10 12l-5-3l-2-1.2v-6l7 4.2l7-4.2v6z"/></svg>
             SmartExam
@@ -34,6 +34,7 @@
         <div class="container px-[20px] w-full flex items-center justify-between relative ">
             <h2 v-if="$route.path == '/dashboard'" class="text-sm font-bold text-gray-800">Tableau de bord</h2>
             <h2 v-if="$route.path == '/examens'" class="text-sm font-bold text-gray-800">Liste des examens</h2>
+            <h2 v-if="$route.path == '/salles'" class="text-sm font-bold text-gray-800">Liste des salles</h2>
             <div class="text-3xl cursor-pointer flex lg:hidden text-gray-800" @click="toggleAdmin()">
                 <i v-if="isMenu" class="fa-solid fa-xmark"></i>
                 <i v-else class="fa-solid fa-bars"></i>

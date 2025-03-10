@@ -6,7 +6,7 @@
             <p class="text-gray-500 mb-[25px]">
                 Ici vous trouverez un récapitulatif de vos activités sur la plateforme ! Bonne planification à vous 
             </p>
-            <div class="w-full flex md:flex-row flex-col items-center justify-between relative">
+            <div class="w-full hidden md:flex-row flex-col items-center justify-between relative">
                 <div class="md:w-[calc(100%/3-15px)] w-full my-[10px] lg:my-0 h-[180px] bg-[#34D399] rounded-[10px] p-[20px] shadow-7xl">
                     <h2 class="text-2xl font-bold text-gray-800 mb-[20px]">Planification d'Examens</h2>
                     <div class="hidden justify-between relative items-center mb-[10px] w-full">
@@ -27,13 +27,16 @@
                 </div>
                 <div class="md:w-[calc((100%-100%/3)-15px)] w-full my-[10px] lg:my-0 h-[180px] rounded-[10px] p-[20px] shadow-7xl"></div>
             </div>
+            <PlanificationComponent/>
         </div>
     </main>
 </template>
 
 <script setup>
 import HeaderAdmin from '@/components/HeaderAdmin.vue';
+import PlanificationComponent from '@/components/PlanificationComponent.vue';
 </script>
+
 
 <style>
 
