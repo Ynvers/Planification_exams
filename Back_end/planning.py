@@ -53,22 +53,9 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
                         <= salles[room].capacite  # Utilisation de la notation par point
                     )
 
-    # Contrainte 4 : Les examens de différentes années ne sont pas programmés simultanément,
-    # même s'ils sont dans des salles différentes.
-    for day in disponibilites:
-        for hour in global_hours:
-            for e1 in examens:
-                for e2 in examens:
-                    if e1 < e2 and (examens[e1].annee != examens[e2].annee):
-                        model.Add(
-                            sum(X[e1, day, hour, room] for room in salles) +
-                            sum(X[e2, day, hour, room] for room in salles)
-                            <= 1
-                        )
+    # Contrainte 4 : La disponibilité des salles est respectée (déjà prise en compte lors de la création de X)
 
-    # Contrainte 5 : La disponibilité des salles est respectée (déjà prise en compte lors de la création de X)
-
-    # Contrainte 6 : Transition entre examens dans la même salle.
+    # Contrainte 5 : Transition entre examens dans la même salle.
     for e in examens:
         duree = examens[e].duree
         for day in disponibilites:
@@ -84,14 +71,22 @@ def planifier_examens(examens, salles, disponibilites, global_hours, transition=
                                 )
 
     # Objectif : Minimiser le dernier instant d'examen
-    dernier_instant = model.NewIntVar(0, max(global_hours), 'dernier_instant')
+    # Ajout des variables pour définir le début et la fin de la période d'examens.
+    T_debut = model.NewIntVar(min(global_hours), max(global_hours), "T_debut")
+    T_fin = model.NewIntVar(min(global_hours), max(global_hours), "T_fin")
+
+    # Contraintes : Identifier le début et la fin réels des examens.
     for e in examens:
         for day in disponibilites:
             for hour in global_hours:
                 for room in salles:
                     if is_available(disponibilites, day, room, hour):
-                        model.Add(dernier_instant >= hour).OnlyEnforceIf(X[e, day, hour, room])
-    model.Minimize(dernier_instant)
+                        model.Add(T_debut <= hour).OnlyEnforceIf(X[e, day, hour, room])
+                        model.Add(T_fin >= hour + examens[e].duree).OnlyEnforceIf(X[e, day, hour, room])
+
+    # Fonction Objectif : Minimiser la durée totale de la période d'examen.
+    model.Minimize(T_fin - T_debut)
+
 
     # Résolution du problème
     solver = cp_model.CpSolver()
